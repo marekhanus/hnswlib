@@ -27,11 +27,20 @@ class RandomSelfTestCase(unittest.TestCase):
 
         p.init_index(max_elements=num_elements, ef_construction=100, M=16)
 
-        # Controlling the recall by setting ef:
-        # higher ef leads to better accuracy, but slower search
-        p.set_ef(100)
+        # test build properties
+        self.assertEqual(p.ef_construction, 100)
 
-        p.set_num_threads(4)  # by default using all available cores
+        # test read/write properties
+        self.assertEqual(p.ef, 10) # default ef is 10
+        p.set_ef(100)
+        self.assertEqual(p.ef, 100)
+        p.ef = 10
+        self.assertEqual(p.ef, 10)
+
+        p.num_threads = 3 # by default using all available cores
+        self.assertEqual(p.num_threads, 3)
+        p.set_num_threads(4)
+        self.assertEqual(p.num_threads, 4)
 
         print("Adding all elements (%d)" % (len(data)))
         p.add_items(data)
